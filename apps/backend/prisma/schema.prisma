@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+enum Role {
+  ADMIN
+  USER
+}
+
+// Estados del contrato
+enum ContractStatus {
+  ACTIVO
+  FINALIZADO
+  PENDIENTE_INGRESO
+}
+
+// Motivos de retiro del personal
+enum SeparationReason {
+  RENUNCIA_VOLUNTARIA
+  DESPIDO_JUSTA_CAUSA
+  DESPIDO_SIN_JUSTA_CAUSA
+  FIN_CONTRATO_TERMINO_FIJO
+  JUBILACION
+}
+
+enum DocumentType {
+  CONTRATO_INGRESO
+  CARTA_RETIRO
+  LIQUIDACION
+  CERTIFICADO_LABORAL
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password      String?
+  name          String
+  role          Role     @default(USER)
+  googleId      String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Employee {
+  id            String   @id @default(uuid())
+  documentType  String   // CC, CE, PPT, etc.
+  documentNumber String  @unique
+  firstName     String
+  lastName      String
+  email         String   @unique
+  phone         String?
+  birthDate     DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relaciones
+  contracts     Contract[] // Historial de todos los contratos (Ingresos y Retiros)
+  documents     Document[] // Historial de PDFs/Word generados (Contratos, Liquidaciones)
+
+  @@map("employees")
+}
+
+// 3. Historial de Contratos (Aquí se maneja la magia de los Cargos, Ingresos y Retiros)
+model Contract {
+  id               String            @id @default(uuid())
+  position         String            // Desde "Auxiliar" hasta "Gerente"
+  department       String            // Área de la empresa
+  salary           Decimal           @db.Decimal(10, 2)
+  startDate        DateTime          // Fecha de Ingreso oficial
+  endDate          DateTime?         // Fecha de Retiro (Opcional hasta que se retire)
+  status           ContractStatus    @default(ACTIVO)
+  
+  // Datos específicos del Retiro
+  separationReason SeparationReason? // Motivo del retiro
+  notes            String?           // Observaciones del retiro o ingreso
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  // Relación con el Empleado
+  employeeId       String
+  employee         Employee          @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("contracts")
+}
+
+// 4. Documentos Generados (Contratos de Ingreso, Cartas de Retiro, Certificados)
+model Document {
+  id           String @id @default(uuid())
+
+  fileName     String
+  fileUrl      String
+
+  documentType DocumentType
+
+  createdAt    DateTime @default(now())
+
+  employeeId   String
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("documents")
+}
