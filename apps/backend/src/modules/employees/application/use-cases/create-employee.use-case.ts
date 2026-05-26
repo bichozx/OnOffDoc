@@ -25,7 +25,7 @@ export class CreateEmployeeUseCase {
       lastName: dto.lastName,
       email: dto.email,
       phone: dto.phone,
-      birthDate: dto.birthDate,
+      birthDate: new Date(dto.birthDate),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

@@ -41,4 +41,14 @@ export class PrismaContractRepository implements ContractRepository {
       data,
     });
   }
+
+  async findMany(): Promise<Contract[]> {
+    const contracts = await this.prisma.contract.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return contracts.map((contract) => ContractMapper.toDomain(contract));
+  }
 }

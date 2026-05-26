@@ -8,4 +8,6 @@ export abstract class ContractRepository {
   abstract findActiveByEmployee(employeeId: string): Promise<Contract | null>;
 
   abstract update(contract: Contract): Promise<void>;
+
+  abstract findMany(): Promise<Contract[]>;
 }
