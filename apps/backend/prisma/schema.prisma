@@ -94,6 +94,7 @@ model Contract {
   // Relación con el Empleado
   employeeId       String
   employee         Employee          @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  documents        Document[]
 
   @@map("contracts")
 }
@@ -107,10 +108,13 @@ model Document {
 
   documentType DocumentType
 
-  createdAt    DateTime @default(now())
-
   employeeId   String
-  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employee     Employee @relation(fields:[employeeId], references:[id])
+
+  contractId   String?
+  contract     Contract? @relation(fields:[contractId], references:[id])
+
+  createdAt    DateTime @default(now())
 
   @@map("documents")
 }
