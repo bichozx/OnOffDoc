@@ -3,8 +3,8 @@ import { CreateContractUseCase } from '../application/use-cases/create-contract.
 import { TerminateContractUseCase } from '../application/use-cases/terminate-contract.use-case';
 import { ListContractsUseCase } from '../application/use-cases/list-contracts.use-case';
 import { GetContractUseCase } from '../application/use-cases/get-contract.use-case';
-import type { CreateContractDto } from '../application/dto/create-contract.dto';
-import type { TerminateContractDto } from '../application/dto/terminate-contract.dto';
+import { CreateContractDto } from '../application/dto/create-contract.dto';
+import { TerminateContractDto } from '../application/dto/terminate-contract.dto';
 
 @Controller('contracts')
 export class ContractsController {

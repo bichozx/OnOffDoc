@@ -1,3 +1,5 @@
+import { ContractStatus, SeparationReason } from '@repo/shared-types';
+
 import { Contract } from '../../domain/entities/contract.entity';
 import type { ContractModel as PrismaContract } from '../../../../../generated/prisma/models/Contract';
 
@@ -12,8 +14,8 @@ export class ContractMapper {
       startDate: new Date(data.startDate),
       endDate: data.endDate ? new Date(data.endDate) : null,
 
-      status: data.status,
-      separationReason: data.separationReason,
+      status: data.status as unknown as ContractStatus,
+      separationReason: data.separationReason as unknown as SeparationReason,
       notes: data.notes,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,

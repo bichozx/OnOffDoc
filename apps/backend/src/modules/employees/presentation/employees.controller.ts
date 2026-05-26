@@ -1,6 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-
-import type { CreateEmployeeDto } from '../application/dto/create-employee.dto';
+import { CreateEmployeeDto } from '../application/dto/create-employee.dto';
 import { CreateEmployeeUseCase } from '../application/use-cases/create-employee.use-case';
 
 @Controller('employees')
@@ -9,10 +8,7 @@ export class EmployeesController {
 
   @Post()
   async create(@Body() dto: CreateEmployeeDto) {
-    const newEmployee = await this.createEmployeeUseCase.execute({
-      ...dto,
-      birthDate: new Date(dto.birthDate),
-    });
+    const newEmployee = await this.createEmployeeUseCase.execute(dto);
 
     return {
       success: true,

@@ -1,7 +1,4 @@
-import {
-  ContractStatus,
-  SeparationReason,
-} from '../../../../../generated/prisma/enums';
+import { ContractStatus, SeparationReason } from '@repo/shared-types';
 
 export interface ContractProps {
   id: string;
