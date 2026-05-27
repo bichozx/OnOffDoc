@@ -4,7 +4,9 @@ import { CreateDocumentUseCase } from '../../application/use-cases/create-docume
 import { DeleteDocumentUseCase } from '../../application/use-cases/delete-documente.use-case';
 import { GetDocumentsByEmployeeUseCase } from '../../application/use-cases/get-document-employee.use-case';
 import { GetDocumentUseCase } from '../../application/use-cases/get-document.use-case';
+import { GenerateDocumentUseCase } from '../../application/use-cases/generate-document.use-case';
 import { ListDocumentsUseCase } from '../../application/use-cases/list-documents.use-case';
+import { GenerateDocumentDto } from '../../application/dto/generate-document.dto';
 
 @Controller('documents')
 export class DocumentsController {
@@ -17,9 +19,10 @@ export class DocumentsController {
 
     private readonly createDocument: CreateDocumentUseCase,
 
+    private readonly generateDocument: GenerateDocumentUseCase,
+
     private readonly deleteDocument: DeleteDocumentUseCase,
   ) {}
-
   @Get()
   findAll() {
     return this.listDocuments.execute();
@@ -44,6 +47,14 @@ export class DocumentsController {
     dto: CreateDocumentDto,
   ) {
     return this.createDocument.execute(dto);
+  }
+
+  @Post('generate')
+  generate(
+    @Body()
+    dto: GenerateDocumentDto,
+  ) {
+    return this.generateDocument.execute(dto);
   }
 
   @Delete(':id')

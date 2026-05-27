@@ -6,8 +6,8 @@ import { DocumentType } from '@repo/shared-types';
 import { EmployeeRepository } from '../../../employees/domain/repositories/employee.repository';
 import { GenerateDocumentDto } from '../dto/generate-document.dto';
 import { Injectable } from '@nestjs/common';
-import { PdfGeneratorService } from '../../infrastructure/pdf/pdfkit-generator.service';
-import { StorageService } from '../../infrastructure/storage/local-storage.service';
+import { PdfGeneratorService } from '../../infrastructure/pdf/pdf-generator.service';
+import { StorageService } from '../../infrastructure/storage/storage.service';
 import { randomUUID } from 'crypto';
 
 @Injectable()
@@ -75,8 +75,9 @@ export class GenerateDocumentUseCase {
     }
 
     const fileName = `${dto.documentType}-${Date.now()}.pdf`;
+    const folder = `employee-${employee.id}`;
 
-    const fileUrl = await this.storage.upload(fileName, pdfBuffer);
+    const fileUrl = await this.storage.upload(fileName, pdfBuffer, folder);
 
     const document = new Document({
       id: randomUUID(),
