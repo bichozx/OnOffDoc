@@ -23,17 +23,13 @@ export class DocumentsController {
 
     private readonly deleteDocument: DeleteDocumentUseCase,
   ) {}
+
   @Get()
   findAll() {
     return this.listDocuments.execute();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.getDocument.execute(id);
-  }
-
-  @Get('/employee/:employeeId')
+  @Get('employee/:employeeId')
   findByEmployee(
     @Param('employeeId')
     employeeId: string,
@@ -41,12 +37,9 @@ export class DocumentsController {
     return this.documentsByEmployee.execute(employeeId);
   }
 
-  @Post()
-  create(
-    @Body()
-    dto: CreateDocumentDto,
-  ) {
-    return this.createDocument.execute(dto);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.getDocument.execute(id);
   }
 
   @Post('generate')
@@ -57,6 +50,14 @@ export class DocumentsController {
     return this.generateDocument.execute(dto);
   }
 
+  @Post()
+  create(
+    @Body()
+    dto: CreateDocumentDto,
+  ) {
+    return this.createDocument.execute(dto);
+  }
+
   @Delete(':id')
   delete(
     @Param('id')
@@ -65,3 +66,61 @@ export class DocumentsController {
     return this.deleteDocument.execute(id);
   }
 }
+
+// @Controller('documents')
+// export class DocumentsController {
+//   constructor(
+//     private readonly getDocument: GetDocumentUseCase,
+
+//     private readonly listDocuments: ListDocumentsUseCase,
+
+//     private readonly documentsByEmployee: GetDocumentsByEmployeeUseCase,
+
+//     private readonly createDocument: CreateDocumentUseCase,
+
+//     private readonly generateDocument: GenerateDocumentUseCase,
+
+//     private readonly deleteDocument: DeleteDocumentUseCase,
+//   ) {}
+//   @Get()
+//   findAll() {
+//     return this.listDocuments.execute();
+//   }
+
+//   @Get('/employee/:employeeId')
+//   findByEmployee(
+//     @Param('employeeId')
+//     employeeId: string,
+//   ) {
+//     return this.documentsByEmployee.execute(employeeId);
+//   }
+
+//   @Get(':id')
+//   findOne(@Param('id') id: string) {
+//     return this.getDocument.execute(id);
+//   }
+
+//   @Post('generate')
+//   generate(
+//     @Body()
+//     dto: GenerateDocumentDto,
+//   ) {
+//     return this.generateDocument.execute(dto);
+//   }
+
+//   @Post()
+//   create(
+//     @Body()
+//     dto: CreateDocumentDto,
+//   ) {
+//     return this.createDocument.execute(dto);
+//   }
+
+//   @Delete(':id')
+//   delete(
+//     @Param('id')
+//     id: string,
+//   ) {
+//     return this.deleteDocument.execute(id);
+//   }
+// }
