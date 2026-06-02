@@ -2,7 +2,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { EmployeeRepository } from '../../../employees/domain/repositories/employee.repository';
 import { HashService } from '../../domain/services/hash.service';
 import { Injectable } from '@nestjs/common';
-import { UserProps } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 
 @Injectable()
@@ -32,24 +32,18 @@ export class CreateUserUseCase {
 
     const hashedPassword = await this.hashService.hash(dto.password);
 
-    const user: UserProps = {
+    const user = new User({
       id: crypto.randomUUID(),
-
       email: dto.email,
-
       password: hashedPassword,
-
       role: dto.role,
-
       employeeId: dto.employeeId,
-
       createdAt: new Date(),
-
       updatedAt: new Date(),
-    };
+    });
 
     await this.repository.create(user);
 
-    return user;
+    return user.toPrimitives();
   }
 }
