@@ -4,15 +4,14 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider     = "prisma-client"
   output       = "../generated/prisma"
-  moduleFormat    = "cjs"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
-
 
 enum Role {
   ADMIN
@@ -43,78 +42,85 @@ enum DocumentType {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  password      String?
-  name          String
-  role          Role     @default(USER)
-  googleId      String?  @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id String @id @default(uuid())
+
+  email    String  @unique
+  password String?
+
+  role Role @default(USER)
+
+  googleId String? @unique
+
+  employeeId String?   @unique
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
 
 model Employee {
-  id            String   @id @default(uuid())
-  documentType  String   // CC, CE, PPT, etc.
-  documentNumber String  @unique
-  firstName     String
-  lastName      String
-  email         String   @unique
-  phone         String?
-  birthDate     DateTime
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
+  id             String   @id @default(uuid())
+  documentType   String // CC, CE, PPT, etc.
+  documentNumber String   @unique
+  firstName      String
+  lastName       String
+  email          String   @unique
+  phone          String?
+  birthDate      DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
   // Relaciones
-  contracts     Contract[] // Historial de todos los contratos (Ingresos y Retiros)
-  documents     Document[] // Historial de PDFs/Word generados (Contratos, Liquidaciones)
+  contracts Contract[] // Historial de todos los contratos (Ingresos y Retiros)
+  documents Document[] // Historial de PDFs/Word generados (Contratos, Liquidaciones)
+  user      User?
 
   @@map("employees")
 }
 
 // 3. Historial de Contratos (Aquí se maneja la magia de los Cargos, Ingresos y Retiros)
 model Contract {
-  id               String            @id @default(uuid())
-  position         String            // Desde "Auxiliar" hasta "Gerente"
-  department       String            // Área de la empresa
-  salary           Decimal           @db.Decimal(10, 2)
-  startDate        DateTime          // Fecha de Ingreso oficial
-  endDate          DateTime?         // Fecha de Retiro (Opcional hasta que se retire)
-  status           ContractStatus    @default(ACTIVO)
-  
+  id         String         @id @default(uuid())
+  position   String // Desde "Auxiliar" hasta "Gerente"
+  department String // Área de la empresa
+  salary     Decimal        @db.Decimal(10, 2)
+  startDate  DateTime // Fecha de Ingreso oficial
+  endDate    DateTime? // Fecha de Retiro (Opcional hasta que se retire)
+  status     ContractStatus @default(ACTIVO)
+
   // Datos específicos del Retiro
   separationReason SeparationReason? // Motivo del retiro
-  notes            String?           // Observaciones del retiro o ingreso
+  notes            String? // Observaciones del retiro o ingreso
 
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relación con el Empleado
-  employeeId       String
-  employee         Employee          @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  documents        Document[]
+  employeeId String
+  employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  documents  Document[]
 
   @@map("contracts")
 }
 
 // 4. Documentos Generados (Contratos de Ingreso, Cartas de Retiro, Certificados)
 model Document {
-  id           String @id @default(uuid())
+  id String @id @default(uuid())
 
-  fileName     String
-  fileUrl      String
+  fileName String
+  fileUrl  String
 
   documentType DocumentType
 
-  employeeId   String
-  employee     Employee @relation(fields:[employeeId], references:[id])
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
-  contractId   String?
-  contract     Contract? @relation(fields:[contractId], references:[id])
+  contractId String?
+  contract   Contract? @relation(fields: [contractId], references: [id])
 
-  createdAt    DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@map("documents")
 }

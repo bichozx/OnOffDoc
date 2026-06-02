@@ -224,6 +224,7 @@ export type EmployeeWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Employee"> | Date | string
   contracts?: Prisma.ContractListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type EmployeeOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type EmployeeOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   contracts?: Prisma.ContractOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -257,6 +259,7 @@ export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Employee"> | Date | string
   contracts?: Prisma.ContractListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "documentNumber" | "email">
 
 export type EmployeeOrderByWithAggregationInput = {
@@ -304,6 +307,7 @@ export type EmployeeCreateInput = {
   updatedAt?: Date | string
   contracts?: Prisma.ContractCreateNestedManyWithoutEmployeeInput
   documents?: Prisma.DocumentCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateInput = {
@@ -319,6 +323,7 @@ export type EmployeeUncheckedCreateInput = {
   updatedAt?: Date | string
   contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutEmployeeInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeUpdateInput = {
@@ -334,6 +339,7 @@ export type EmployeeUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUpdateManyWithoutEmployeeNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateInput = {
@@ -349,6 +355,7 @@ export type EmployeeUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUncheckedUpdateManyWithoutEmployeeNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUncheckedUpdateOneWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateManyInput = {
@@ -388,6 +395,11 @@ export type EmployeeUncheckedUpdateManyInput = {
   birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EmployeeNullableScalarRelationFilter = {
+  is?: Prisma.EmployeeWhereInput | null
+  isNot?: Prisma.EmployeeWhereInput | null
 }
 
 export type EmployeeCountOrderByAggregateInput = {
@@ -434,6 +446,22 @@ export type EmployeeScalarRelationFilter = {
   isNot?: Prisma.EmployeeWhereInput
 }
 
+export type EmployeeCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.EmployeeCreateWithoutUserInput, Prisma.EmployeeUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.EmployeeCreateOrConnectWithoutUserInput
+  connect?: Prisma.EmployeeWhereUniqueInput
+}
+
+export type EmployeeUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.EmployeeCreateWithoutUserInput, Prisma.EmployeeUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.EmployeeCreateOrConnectWithoutUserInput
+  upsert?: Prisma.EmployeeUpsertWithoutUserInput
+  disconnect?: Prisma.EmployeeWhereInput | boolean
+  delete?: Prisma.EmployeeWhereInput | boolean
+  connect?: Prisma.EmployeeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmployeeUpdateToOneWithWhereWithoutUserInput, Prisma.EmployeeUpdateWithoutUserInput>, Prisma.EmployeeUncheckedUpdateWithoutUserInput>
+}
+
 export type EmployeeCreateNestedOneWithoutContractsInput = {
   create?: Prisma.XOR<Prisma.EmployeeCreateWithoutContractsInput, Prisma.EmployeeUncheckedCreateWithoutContractsInput>
   connectOrCreate?: Prisma.EmployeeCreateOrConnectWithoutContractsInput
@@ -462,6 +490,82 @@ export type EmployeeUpdateOneRequiredWithoutDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmployeeUpdateToOneWithWhereWithoutDocumentsInput, Prisma.EmployeeUpdateWithoutDocumentsInput>, Prisma.EmployeeUncheckedUpdateWithoutDocumentsInput>
 }
 
+export type EmployeeCreateWithoutUserInput = {
+  id?: string
+  documentType: string
+  documentNumber: string
+  firstName: string
+  lastName: string
+  email: string
+  phone?: string | null
+  birthDate: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  contracts?: Prisma.ContractCreateNestedManyWithoutEmployeeInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutEmployeeInput
+}
+
+export type EmployeeUncheckedCreateWithoutUserInput = {
+  id?: string
+  documentType: string
+  documentNumber: string
+  firstName: string
+  lastName: string
+  email: string
+  phone?: string | null
+  birthDate: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutEmployeeInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutEmployeeInput
+}
+
+export type EmployeeCreateOrConnectWithoutUserInput = {
+  where: Prisma.EmployeeWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmployeeCreateWithoutUserInput, Prisma.EmployeeUncheckedCreateWithoutUserInput>
+}
+
+export type EmployeeUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.EmployeeUpdateWithoutUserInput, Prisma.EmployeeUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.EmployeeCreateWithoutUserInput, Prisma.EmployeeUncheckedCreateWithoutUserInput>
+  where?: Prisma.EmployeeWhereInput
+}
+
+export type EmployeeUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.EmployeeWhereInput
+  data: Prisma.XOR<Prisma.EmployeeUpdateWithoutUserInput, Prisma.EmployeeUncheckedUpdateWithoutUserInput>
+}
+
+export type EmployeeUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentType?: Prisma.StringFieldUpdateOperationsInput | string
+  documentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUpdateManyWithoutEmployeeNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutEmployeeNestedInput
+}
+
+export type EmployeeUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentType?: Prisma.StringFieldUpdateOperationsInput | string
+  documentNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contracts?: Prisma.ContractUncheckedUpdateManyWithoutEmployeeNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutEmployeeNestedInput
+}
+
 export type EmployeeCreateWithoutContractsInput = {
   id?: string
   documentType: string
@@ -474,6 +578,7 @@ export type EmployeeCreateWithoutContractsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutContractsInput = {
@@ -488,6 +593,7 @@ export type EmployeeUncheckedCreateWithoutContractsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutContractsInput = {
@@ -518,6 +624,7 @@ export type EmployeeUpdateWithoutContractsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutContractsInput = {
@@ -532,6 +639,7 @@ export type EmployeeUncheckedUpdateWithoutContractsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUncheckedUpdateOneWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateWithoutDocumentsInput = {
@@ -546,6 +654,7 @@ export type EmployeeCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contracts?: Prisma.ContractCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutDocumentsInput = {
@@ -560,6 +669,7 @@ export type EmployeeUncheckedCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contracts?: Prisma.ContractUncheckedCreateNestedManyWithoutEmployeeInput
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutDocumentsInput = {
@@ -590,6 +700,7 @@ export type EmployeeUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutDocumentsInput = {
@@ -604,6 +715,7 @@ export type EmployeeUncheckedUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contracts?: Prisma.ContractUncheckedUpdateManyWithoutEmployeeNestedInput
+  user?: Prisma.UserUncheckedUpdateOneWithoutEmployeeNestedInput
 }
 
 
@@ -659,6 +771,7 @@ export type EmployeeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
   contracts?: boolean | Prisma.Employee$contractsArgs<ExtArgs>
   documents?: boolean | Prisma.Employee$documentsArgs<ExtArgs>
+  user?: boolean | Prisma.Employee$userArgs<ExtArgs>
   _count?: boolean | Prisma.EmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["employee"]>
 
@@ -705,6 +818,7 @@ export type EmployeeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type EmployeeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contracts?: boolean | Prisma.Employee$contractsArgs<ExtArgs>
   documents?: boolean | Prisma.Employee$documentsArgs<ExtArgs>
+  user?: boolean | Prisma.Employee$userArgs<ExtArgs>
   _count?: boolean | Prisma.EmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -715,6 +829,7 @@ export type $EmployeePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     contracts: Prisma.$ContractPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1123,6 +1238,7 @@ export interface Prisma__EmployeeClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   contracts<T extends Prisma.Employee$contractsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$contractsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContractPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Employee$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.Employee$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1600,6 +1716,25 @@ export type Employee$documentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
+}
+
+/**
+ * Employee.user
+ */
+export type Employee$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
